@@ -6,9 +6,10 @@
 
 Planned Features:
 - create same day shutdown task: ✅
-- delete same day shutdown tasks: ✅
-- reboot task: ✅
-- reading remaining time until shutdown:
+- create same day reboot task: ✅
+- delete same day shutdown task: ✅
+- delete same day reboot task: ✅
+- reading remaining time until shutdown/reboot:
 - creating (far) future shutdown:
 - delete (far) future shutdown:
 - managing multiple (far) future shutdowns:
