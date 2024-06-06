@@ -40,8 +40,8 @@ void task(string& mode) {
     cin >> input;
 
     switch (input) {
-        case 1: mode = " -s"; break;
-        case 2: mode = " -r"; break;
+        case 1: mode = " -s -d p:0:0"; break;
+        case 2: mode = " -r -d p:0:0"; break;
     }
 }
 
