@@ -3,6 +3,11 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+#custom
+ShutdownManager.vcxproj
+ShutdownManager.vcxproj.filters
+ShutdownManager.sln
+
 # User-specific files
 *.rsuser
 *.suo
