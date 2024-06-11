@@ -27,7 +27,6 @@ int main()
            case 1116: cout << "no task found\n"; break;
            default: cout << "unkown error\n";
        }
-
        system("pause");
        return 0;
     }
@@ -50,6 +49,7 @@ void task(string& mode) {
     switch (input) {
         case 1: mode = " -s -d p:0:0"; break;
         case 2: mode = " -r -d p:0:0"; break;
+        default: mode = " -s -d p:0:0";
     }
 }
 
@@ -66,6 +66,7 @@ void unit(int& unitm) {
     case 1: unitm = 1; break;
     case 2: unitm = 60; break;
     case 3: unitm = 3600; break;
+    default: unitm = 60;
     }
 }
 
