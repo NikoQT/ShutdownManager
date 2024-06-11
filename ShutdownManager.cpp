@@ -20,7 +20,15 @@ int main()
 
     if (input == 2) {
        string s = "shutdown -a";
-       system(s.c_str());
+       int output = system(s.c_str());
+       system("cls");
+       switch (output) {
+           case 0: cout << "canceled task successfully\n"; break;
+           case 1116: cout << "no task found\n"; break;
+           default: cout << "unkown error\n";
+       }
+
+       system("pause");
        return 0;
     }
 
