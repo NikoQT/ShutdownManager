@@ -8,6 +8,7 @@ void build(int unitm, string duration, string mode);
 void task(string& mode);
 void unit(int& unitm);
 void time(string& duration);
+void cancelSameDayTask();
 
 int main()
 {
@@ -19,16 +20,8 @@ int main()
     cin >> input;
 
     if (input == 2) {
-       string s = "shutdown -a";
-       int output = system(s.c_str());
-       system("cls");
-       switch (output) {
-           case 0: cout << "canceled task successfully\n"; break;
-           case 1116: cout << "no task found\n"; break;
-           default: cout << "unkown error\n";
-       }
-       system("pause");
-       return 0;
+        cancelSameDayTask();
+        return 0;
     }
 
     task(mode);
@@ -81,4 +74,16 @@ void build(int unitm, string duration, string mode) {
     duration = " -t " + to_string(stoi(duration) * unitm);
     string command = "shutdown" + mode + duration;
     system(command.c_str());
+}
+
+void cancelSameDayTask() {
+    string s = "shutdown -a";
+    int output = system(s.c_str());
+    system("cls");
+    switch (output) {
+    case 0: cout << "canceled task successfully\n"; break;
+    case 1116: cout << "no task found\n"; break;
+    default: cout << "unkown error\n";
+    }
+    system("pause");
 }
