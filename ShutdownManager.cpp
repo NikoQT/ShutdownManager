@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
-
+#include <time.h>
 using namespace std;
 
 void build(int unitm, string duration, string mode);
@@ -9,9 +9,10 @@ void task(string& mode);
 void unit(int& unitm);
 void time(string& duration);
 void cancelSameDayTask();
+int calcTime(int hourInput, int minInput, int secInput);
 
 int main()
-{
+{ 
     string duration, mode;
     int input, unitm;
     cout << "main mode:\n";
@@ -30,6 +31,7 @@ int main()
     build(unitm, duration, mode);
     return 0;
 }
+
 
 void task(string& mode) {
     system("cls");
@@ -86,4 +88,21 @@ void cancelSameDayTask() {
     default: cout << "unkown error\n";
     }
     system("pause");
+}
+
+int calcTime(int hourInput, int minInput, int secInput) {
+    time_t now = time(NULL);
+
+    struct tm timeinfo;
+    localtime_s(&timeinfo, &now);
+
+    int result = (3600 * (hourInput - timeinfo.tm_hour)) + (60 * (minInput - timeinfo.tm_min)) + (secInput - timeinfo.tm_sec);
+
+    if (result <= 0) {
+        cout << "Error: given time is in the past. Please restart the programm\n";
+        system("pause");
+        exit(-1);
+    }
+
+    return result;
 }
