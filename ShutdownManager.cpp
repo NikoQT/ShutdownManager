@@ -50,6 +50,7 @@ void createTask() {
     }
 
     cout << GREEN << "created task successfully\n" << RESET;
+    system("pause");
     
 }
 
