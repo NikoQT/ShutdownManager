@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+#include "coutColors.h"
 using namespace std;
 
 void buildTask(string duration, int unitm, string mode);
@@ -48,7 +49,7 @@ void createTask() {
         default: buildTask(inputRelTime(), inputUnit(), " -s -d p:0:0");
     }
 
-    cout << "created task successfully\n";
+    cout << GREEN << "created task successfully\n" << RESET;
     
 }
 
@@ -92,9 +93,9 @@ void cancelSameDayTask() {
     int output = system(s.c_str());
     system("cls");
     switch (output) {
-    case 0: cout << "canceled task successfully\n"; break;
-    case 1116: cout << "no task found\n"; break;
-    default: cout << "unkown error\n";
+    case 0: cout << GREEN << "canceled task successfully\n" << RESET; break;
+    case 1116: cout << RED << "no task found\n" << RESET; break;
+    default: cout << RED << "unkown error\n" << RESET;
     }
     system("pause");
 }
@@ -125,7 +126,7 @@ int calcTime(int hourInput, int minInput, int secInput) {
     int result = (3600 * (hourInput - timeinfo.tm_hour)) + (60 * (minInput - timeinfo.tm_min)) + (secInput - timeinfo.tm_sec);
 
     if (result <= 0) {
-        cout << "Error: given time is in the past. Please restart the programm\n";
+        cout << RED << "Error: given time is in the past. Please restart the programm\n" << RESET;
         system("pause");
         exit(-1);
     }
