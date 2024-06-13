@@ -8,9 +8,9 @@
 
 Planned Features:
 - create same day shutdown task (timer): ✅
-- create same day shutdown task (at specific time):
+- create same day shutdown task (at specific time): ✅
 - create same day reboot task (timer): ✅
-- create same day reboot task (at specific time):
+- create same day reboot task (at specific time): ✅
 - delete same day shutdown task: ✅
 - delete same day reboot task: ✅
 - change mode (change between different features): ✅
