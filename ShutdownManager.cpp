@@ -4,13 +4,13 @@
 #include <time.h>
 using namespace std;
 
-void build(string duration, int unitm, string mode);
+void buildTask(string duration, int unitm, string mode);
 void createTask();
 void cancelSameDayTask();
-int unit();
+int inputUnit();
 int calcTime(int hourInput, int minInput, int secInput);
-string time();
-string inputTime();
+string inputRelTime();
+string inputSpecificTime();
 
 int main()
 { 
@@ -41,18 +41,18 @@ void createTask() {
     cin >> input;
 
     switch (input) {
-        case 1: build(time(), unit(), " -s -d p:0:0"); break;
-        case 2: build(inputTime() , 1, " -s -d p:0:0"); break;
-        case 3: build(time(), unit(), " -r -d p:0:0"); break;
-        case 4: build(inputTime(), 1, " -r -d p:0:0"); break;
-        default: build(time(), unit(), " -s -d p:0:0");
+        case 1: buildTask(inputRelTime(), inputUnit(), " -s -d p:0:0"); break;
+        case 2: buildTask(inputSpecificTime() , 1, " -s -d p:0:0"); break;
+        case 3: buildTask(inputRelTime(), inputUnit(), " -r -d p:0:0"); break;
+        case 4: buildTask(inputSpecificTime(), 1, " -r -d p:0:0"); break;
+        default: buildTask(inputRelTime(), inputUnit(), " -s -d p:0:0");
     }
 
     cout << "created task successfully\n";
     
 }
 
-int unit() {
+int inputUnit() {
     int unitm;
     system("cls");
     int input;
@@ -72,7 +72,7 @@ int unit() {
     return unitm;
 }
 
-string time() {
+string inputRelTime() {
     string duration;
     system("cls");
     cout << "duration: ";
@@ -80,7 +80,7 @@ string time() {
     return duration;
 }
 
-void build(string duration, int unitm, string mode) {
+void buildTask(string duration, int unitm, string mode) {
 
     duration = " -t " + to_string(stoi(duration) * unitm);
     string command = "shutdown" + mode + duration;
@@ -99,7 +99,7 @@ void cancelSameDayTask() {
     system("pause");
 }
 
-string inputTime() {
+string inputSpecificTime() {
     int hourInput, minInput, secInput;
     system("cls");
     cout << "hour: ";
