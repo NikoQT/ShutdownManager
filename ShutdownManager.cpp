@@ -12,6 +12,7 @@ int inputUnit();
 int calcTime(int hourInput, int minInput, int secInput);
 string inputRelTime();
 string inputSpecificTime();
+string getUserSID();
 
 int main()
 { 
@@ -133,4 +134,28 @@ int calcTime(int hourInput, int minInput, int secInput) {
     }
 
     return result;
+}
+
+string getUserSID() {
+
+    char buffer[128];
+    string result;
+    FILE* pipe = _popen("whoami /user", "r");
+    if (!pipe) throw runtime_error("popen() failed!");
+
+    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        result += buffer;
+    }
+
+    _pclose(pipe);
+
+    size_t pos = result.find("S-");
+    if (pos != string::npos) {
+        string SID = result.substr(pos);
+        SID = SID.substr(0, SID.find('\n'));
+        return SID;
+    }
+    else {
+        throw runtime_error("SID not found in whoami output");
+    }
 }
