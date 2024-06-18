@@ -3,8 +3,9 @@
 #include <string>
 #include <time.h>
 #include <fstream>
-#include <filesystem>
+#include <codecvt>
 #include "coutColors.h"
+
 using namespace std;
 
 void buildTask(string duration, int unitm, string mode);
@@ -35,7 +36,6 @@ int main()
     createTask();
     return 0;
 }
-
 
 void createTask() {
     system("cls");
@@ -166,7 +166,6 @@ string getUserSID() {
 }
 
 string getCurrentUser() {
-
     char buffer[128];
     string result;
     FILE* pipe = _popen("whoami", "r");
@@ -178,83 +177,80 @@ string getCurrentUser() {
 
     _pclose(pipe);
 
-    size_t pos = result.find('\n');
-    if (pos != string::npos) {
-        result.erase(pos);
-    }
-
+    result.erase(result.find_last_not_of(" \n\r\t") + 1);
     return result;
 }
 
 void buildXML() {
     string date = "2024-06-17T12:11:54.6558387";
-    string author = getCurrentUser();
     string startBoundary = "2024-06-17T13:10:43+02:00";
     string endBoundary = "2025-06-17T14:10:43+02:00";
     string userId = getUserSID();
     string command = "shutdown";
     string arguments = "-s -t 60";
+    string author = getCurrentUser();
 
-    ofstream file("D:\\Downloads\\task.xml");
+    wofstream file("D:\\Downloads\\task.xml", ios::out | ios::trunc | ios::binary);
 
-    if (!file) {
-        cerr << "Error creating file!" << endl;
-        system("pause");
-    }
+    //BOM for UTF-16LE
+    file.put(0xFF);
+    file.put(0xFE);
+    file.imbue(locale(file.getloc(), new codecvt_utf16<wchar_t, 0x10ffff, little_endian>));
 
-    file << R"(<?xml version="1.0" encoding="UTF-8"?>)" << endl;
-    file << R"(<Task xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task" version="1.4">)" << endl;
-    file << R"(  <RegistrationInfo>)" << endl;
-    file << "    <Date>" << date << "</Date>" << endl;
-    file << "    <Author>" << author << "</Author>" << endl;
-    file << R"(    <URI>\Atest</URI>)" << endl;
-    file << R"(  </RegistrationInfo>)" << endl;
-    file << R"(  <Triggers>)" << endl;
-    file << R"(    <TimeTrigger>)" << endl;
-    file << "      <StartBoundary>" << startBoundary << "</StartBoundary>" << endl;
-    file << "      <EndBoundary>" << endBoundary << "</EndBoundary>" << endl;
-    file << R"(      <Enabled>true</Enabled>)" << endl;
-    file << R"(    </TimeTrigger>)" << endl;
-    file << R"(  </Triggers>)" << endl;
-    file << R"(  <Principals>)" << endl;
-    file << R"(    <Principal id="Author">)" << endl;
-    file << "      <UserId>" << userId << "</UserId>" << endl;
-    file << R"(      <LogonType>S4U</LogonType>)" << endl;
-    file << R"(      <RunLevel>LeastPrivilege</RunLevel>)" << endl;
-    file << R"(    </Principal>)" << endl;
-    file << R"(  </Principals>)" << endl;
-    file << R"(  <Settings>)" << endl;
-    file << R"(    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>)" << endl;
-    file << R"(    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>)" << endl;
-    file << R"(    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>)" << endl;
-    file << R"(    <AllowHardTerminate>true</AllowHardTerminate>)" << endl;
-    file << R"(    <StartWhenAvailable>true</StartWhenAvailable>)" << endl;
-    file << R"(    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>)" << endl;
-    file << R"(    <IdleSettings>)" << endl;
-    file << R"(      <StopOnIdleEnd>true</StopOnIdleEnd>)" << endl;
-    file << R"(      <RestartOnIdle>false</RestartOnIdle>)" << endl;
-    file << R"(    </IdleSettings>)" << endl;
-    file << R"(    <AllowStartOnDemand>true</AllowStartOnDemand>)" << endl;
-    file << R"(    <Enabled>true</Enabled>)" << endl;
-    file << R"(    <Hidden>false</Hidden>)" << endl;
-    file << R"(    <RunOnlyIfIdle>false</RunOnlyIfIdle>)" << endl;
-    file << R"(    <DisallowStartOnRemoteAppSession>false</DisallowStartOnRemoteAppSession>)" << endl;
-    file << R"(    <UseUnifiedSchedulingEngine>true</UseUnifiedSchedulingEngine>)" << endl;
-    file << R"(    <WakeToRun>false</WakeToRun>)" << endl;
-    file << R"(    <ExecutionTimeLimit>PT72H</ExecutionTimeLimit>)" << endl;
-    file << R"(    <Priority>7</Priority>)" << endl;
-    file << R"(    <RestartOnFailure>)" << endl;
-    file << R"(      <Interval>PT1M</Interval>)" << endl;
-    file << R"(      <Count>3</Count>)" << endl;
-    file << R"(    </RestartOnFailure>)" << endl;
-    file << R"(  </Settings>)" << endl;
-    file << R"(  <Actions Context="Author">)" << endl;
-    file << R"(    <Exec>)" << endl;
-    file << "      <Command>" << command << "</Command>" << endl;
-    file << "      <Arguments>" << arguments << "</Arguments>" << endl;
-    file << R"(    </Exec>)" << endl;
-    file << R"(  </Actions>)" << endl;
-    file << R"(</Task>)" << endl;
+    
+    file << L"<?xml version=\"1.0\" encoding=\"UTF-16\"?>" << endl;
+    file << L"<Task xmlns=\"http://schemas.microsoft.com/windows/2004/02/mit/task\" version=\"1.4\">" << endl;
+    file << L"  <RegistrationInfo>" << endl;
+    file << L"    <Date>" << wstring(date.begin(), date.end()) << L"</Date>" << endl;
+    file << L"    <Author>" << wstring(author.begin(), author.end()) << L"</Author>" << endl;
+    file << L"    <URI>\\Atest</URI>" << endl;
+    file << L"  </RegistrationInfo>" << endl;
+    file << L"  <Triggers>" << endl;
+    file << L"    <TimeTrigger>" << endl;
+    file << L"      <StartBoundary>" << wstring(startBoundary.begin(), startBoundary.end()) << L"</StartBoundary>" << endl;
+    file << L"      <EndBoundary>" << wstring(endBoundary.begin(), endBoundary.end()) << L"</EndBoundary>" << endl;
+    file << L"      <Enabled>true</Enabled>" << endl;
+    file << L"    </TimeTrigger>" << endl;
+    file << L"  </Triggers>" << endl;
+    file << L"  <Principals>" << endl;
+    file << L"    <Principal id=\"Author\">" << endl;
+    file << L"      <UserId>" << wstring(userId.begin(), userId.end()) << L"</UserId>" << endl;
+    file << L"      <LogonType>S4U</LogonType>" << endl;
+    file << L"      <RunLevel>LeastPrivilege</RunLevel>" << endl;
+    file << L"    </Principal>" << endl;
+    file << L"  </Principals>" << endl;
+    file << L"  <Settings>" << endl;
+    file << L"    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>" << endl;
+    file << L"    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>" << endl;
+    file << L"    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>" << endl;
+    file << L"    <AllowHardTerminate>true</AllowHardTerminate>" << endl;
+    file << L"    <StartWhenAvailable>true</StartWhenAvailable>" << endl;
+    file << L"    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>" << endl;
+    file << L"    <IdleSettings>" << endl;
+    file << L"      <StopOnIdleEnd>true</StopOnIdleEnd>" << endl;
+    file << L"      <RestartOnIdle>false</RestartOnIdle>" << endl;
+    file << L"    </IdleSettings>" << endl;
+    file << L"    <AllowStartOnDemand>true</AllowStartOnDemand>" << endl;
+    file << L"    <Enabled>true</Enabled>" << endl;
+    file << L"    <Hidden>false</Hidden>" << endl;
+    file << L"    <RunOnlyIfIdle>false</RunOnlyIfIdle>" << endl;
+    file << L"    <DisallowStartOnRemoteAppSession>false</DisallowStartOnRemoteAppSession>" << endl;
+    file << L"    <UseUnifiedSchedulingEngine>true</UseUnifiedSchedulingEngine>" << endl;
+    file << L"    <WakeToRun>false</WakeToRun>" << endl;
+    file << L"    <ExecutionTimeLimit>PT72H</ExecutionTimeLimit>" << endl;
+    file << L"    <Priority>7</Priority>" << endl;
+    file << L"    <RestartOnFailure>" << endl;
+    file << L"      <Interval>PT1M</Interval>" << endl;
+    file << L"      <Count>3</Count>" << endl;
+    file << L"    </RestartOnFailure>" << endl;
+    file << L"  </Settings>" << endl;
+    file << L"  <Actions Context=\"Author\">" << endl;
+    file << L"    <Exec>" << endl;
+    file << L"      <Command>" << wstring(command.begin(), command.end()) << L"</Command>" << endl;
+    file << L"      <Arguments>" << wstring(arguments.begin(), arguments.end()) << L"</Arguments>" << endl;
+    file << L"    </Exec>" << endl;
+    file << L"  </Actions>" << endl;
+    file << L"</Task>" << endl;
 
     file.close();
     cout << "XML file created successfully!" << endl;
