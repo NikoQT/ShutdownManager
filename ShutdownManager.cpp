@@ -21,7 +21,6 @@ string getCurrentUser();
 
 int main()
 { 
-    buildXML();
     int input;
     cout << "main mode:\n";
     cout << "[1] create new task\n";
@@ -187,10 +186,10 @@ void buildXML() {
     string endBoundary = "2025-06-17T14:10:43+02:00";
     string userId = getUserSID();
     string command = "shutdown";
-    string arguments = "-s -t 60";
+    string arguments = "-s -t 300 -d p:0:0";
     string author = getCurrentUser();
 
-    wofstream file("D:\\Downloads\\task.xml", ios::out | ios::trunc | ios::binary);
+    wofstream file("D:\\Downloads\\ShutdownManager.xml", ios::out | ios::trunc | ios::binary);
 
     //BOM for UTF-16LE
     file.put(0xFF);
@@ -253,5 +252,4 @@ void buildXML() {
     file << L"</Task>" << endl;
 
     file.close();
-    cout << "XML file created successfully!" << endl;
 }
