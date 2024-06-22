@@ -3,7 +3,6 @@
 #include <string>
 #include <time.h>
 #include <fstream>
-#include <filesystem>
 #include <codecvt>
 
 using namespace std;
@@ -11,6 +10,7 @@ using namespace std;
 string getUserSID();
 string getAppDataFolder();
 string getCurrentUser();
+string to_stringd(int i);
 void inputXML();
 void buildXML(string type);
 
@@ -30,8 +30,10 @@ void inputXML() {
     cout << "second: ";
     cin >> second;
 
+
     if (minute >= 5) {
         minute_corrected = minute - 5;
+        hour_corrected = hour;
     }
     else {
         hour_corrected = hour - 1;
@@ -97,16 +99,26 @@ string getAppDataFolder() {
     return result;
 }
 
+string to_stringd(int i) {
+    string str = to_string(i);
+
+    if (str.length() == 1) {
+        return "0" + str;
+    }
+
+    return str;
+}
+
 void buildXML(string type) {
 
     time_t now = time(NULL);
     struct tm timeinfo;
     localtime_s(&timeinfo, &now);
 
-    string date = to_string(timeinfo.tm_year + 1900) + "-" + to_string(timeinfo.tm_mon + 1) + "-" + to_string(timeinfo.tm_mday) + "T" + to_string(timeinfo.tm_hour) + ":" + to_string(timeinfo.tm_min) + ":" + to_string(timeinfo.tm_sec); //schema: "2024-06-17T12:11:54.6558387"
+    string date = to_stringd(timeinfo.tm_year + 1900) + "-" + to_stringd(timeinfo.tm_mon + 1) + "-" + to_stringd(timeinfo.tm_mday) + "T" + to_stringd(timeinfo.tm_hour) + ":" + to_stringd(timeinfo.tm_min) + ":" + to_stringd(timeinfo.tm_sec); //schema: "2024-06-17T12:11:54.6558387"
     inputXML();
-    string startBoundary = to_string(year) + "-" + to_string(moth) + "-" + to_string(day) + "T" + to_string(hour_corrected) + ":" + to_string(minute_corrected) + ":" + to_string(second); //schema: "2024-06-17T13:10:43+02:00"
-    string endBoundary = to_string(year) + "-" + to_string(moth) + "-" + to_string(day) + "T" + to_string(hour) + ":" + to_string(minute) + ":" + to_string(second); //schema: "2025-06-17T14:10:43"
+    string startBoundary = to_stringd(year) + "-" + to_stringd(moth) + "-" + to_stringd(day) + "T" + to_stringd(hour_corrected) + ":" + to_stringd(minute_corrected) + ":" + to_stringd(second); //schema: "2024-06-17T13:10:43+02:00"
+    string endBoundary = to_stringd(year) + "-" + to_stringd(moth) + "-" + to_stringd(day) + "T" + to_stringd(hour) + ":" + to_stringd(minute) + ":" + to_stringd(second); //schema: "2025-06-17T14:10:43"
     string userId = getUserSID();
     string command = "shutdown";
     string arguments = type + " -t 300 -d p:0:0";
