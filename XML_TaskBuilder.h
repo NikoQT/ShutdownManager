@@ -3,14 +3,16 @@
 #include <string>
 #include <time.h>
 #include <fstream>
+#include <filesystem>
 #include <codecvt>
 
 using namespace std;
 
 string getUserSID();
+string getAppDataFolder();
 string getCurrentUser();
 void inputXML();
-void buildXML();
+void buildXML(string type);
 
 int year, moth, day, hour, minute, second, hour_corrected, minute_corrected;
 
@@ -79,7 +81,23 @@ string getCurrentUser() {
     return result;
 }
 
-void buildXML() {
+string getAppDataFolder() {
+    char buffer[128];
+    string result;
+    FILE* pipe = _popen("echo %appdata%", "r");
+    if (!pipe) throw runtime_error("popen() failed!");
+
+    while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        result += buffer;
+    }
+
+    _pclose(pipe);
+
+    result.erase(result.find_last_not_of(" \n\r\t") + 1);
+    return result;
+}
+
+void buildXML(string type) {
 
     time_t now = time(NULL);
     struct tm timeinfo;
@@ -91,10 +109,12 @@ void buildXML() {
     string endBoundary = to_string(year) + "-" + to_string(moth) + "-" + to_string(day) + "T" + to_string(hour) + ":" + to_string(minute) + ":" + to_string(second); //schema: "2025-06-17T14:10:43"
     string userId = getUserSID();
     string command = "shutdown";
-    string arguments = "-s -t 300 -d p:0:0";
+    string arguments = type + " -t 300 -d p:0:0";
     string author = getCurrentUser();
 
-    wofstream file("D:\\Downloads\\ShutdownManager.xml", ios::out | ios::trunc | ios::binary);
+    string path = getAppDataFolder() + "\\ShutdownManager.xml";
+
+    wofstream file(path, ios::out | ios::trunc | ios::binary);
 
     //BOM for UTF-16LE
     file.put(0xFF);

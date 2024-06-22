@@ -10,7 +10,6 @@ using namespace std;
 void buildTask(string duration, int unitm, string mode);
 void createTask();
 void cancelSameDayTask();
-void buildXML();
 int inputUnit();
 int calcTime(int hourInput, int minInput, int secInput);
 string inputRelTime();
@@ -19,7 +18,7 @@ string inputSpecificTime();
 
 int main()
 { 
-    buildXML();
+    buildXML("-s");
     int input;
     cout << "main mode:\n";
     cout << "[1] create new task\n";
