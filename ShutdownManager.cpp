@@ -21,6 +21,7 @@ string getCurrentUser();
 
 int main()
 { 
+    buildXML();
     int input;
     cout << "main mode:\n";
     cout << "[1] create new task\n";
@@ -181,7 +182,12 @@ string getCurrentUser() {
 }
 
 void buildXML() {
-    string date = "2024-06-17T12:11:54.6558387";
+    
+    time_t now = time(NULL);
+    struct tm timeinfo;
+    localtime_s(&timeinfo, &now);
+
+    string date = to_string(timeinfo.tm_year + 1900) + "-" + to_string(timeinfo.tm_mon + 1) + "-" + to_string(timeinfo.tm_mday) + "T" + to_string(timeinfo.tm_hour) + ":" + to_string(timeinfo.tm_min) + ":" + to_string(timeinfo.tm_sec); //schema: "2024-06-17T12:11:54.6558387"
     string startBoundary = "2024-06-17T13:10:43+02:00";
     string endBoundary = "2025-06-17T14:10:43+02:00";
     string userId = getUserSID();
