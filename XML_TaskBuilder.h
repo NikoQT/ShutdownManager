@@ -8,8 +8,36 @@
 using namespace std;
 
 string getUserSID();
-void buildXML();
 string getCurrentUser();
+void inputXML();
+void buildXML();
+
+int year, moth, day, hour, minute, second, hour_corrected, minute_corrected;
+
+void inputXML() {
+    cout << "year: ";
+    cin >> year;
+    cout << "moth: ";
+    cin >> moth;
+    cout << "day: ";
+    cin >> day;
+    cout << "hour: ";
+    cin >> hour;
+    cout << "minute: ";
+    cin >> minute;
+    cout << "second: ";
+    cin >> second;
+
+    if (minute >= 5) {
+        minute_corrected = minute - 5;
+    }
+    else {
+        hour_corrected = hour - 1;
+
+        minute_corrected = 60 - (5 - minute);
+    }
+}
+
 
 string getUserSID() {
 
@@ -58,8 +86,9 @@ void buildXML() {
     localtime_s(&timeinfo, &now);
 
     string date = to_string(timeinfo.tm_year + 1900) + "-" + to_string(timeinfo.tm_mon + 1) + "-" + to_string(timeinfo.tm_mday) + "T" + to_string(timeinfo.tm_hour) + ":" + to_string(timeinfo.tm_min) + ":" + to_string(timeinfo.tm_sec); //schema: "2024-06-17T12:11:54.6558387"
-    string startBoundary = "2024-06-17T13:10:43+02:00";
-    string endBoundary = "2025-06-17T14:10:43+02:00";
+    inputXML();
+    string startBoundary = to_string(year) + "-" + to_string(moth) + "-" + to_string(day) + "T" + to_string(hour_corrected) + ":" + to_string(minute_corrected) + ":" + to_string(second); //schema: "2024-06-17T13:10:43+02:00"
+    string endBoundary = to_string(year) + "-" + to_string(moth) + "-" + to_string(day) + "T" + to_string(hour) + ":" + to_string(minute) + ":" + to_string(second); //schema: "2025-06-17T14:10:43"
     string userId = getUserSID();
     string command = "shutdown";
     string arguments = "-s -t 300 -d p:0:0";
