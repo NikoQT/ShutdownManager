@@ -54,12 +54,14 @@ void createTask() {
     system("cls");
     int input; 
     cout << "task mode:\n";
-    cout << "[1] new shutdown timer\n";
-    cout << "[2] new shutdown task at specific time\n";
-    cout << "[3] (WOP) new shutdown timer far future\n";
-    cout << "[4] new reboot timer\n";
-    cout << "[5] new reboot task at specific time\n";
-    cout << "[6] (WOP) new reboot timer far future\n";
+    cout << "shutdowns:\n";
+    cout << "   [1] same day shutdown - countdown\n";
+    cout << "   [2] same day shutdown - specific time\n";
+    cout << "   [3] other day shutdown - specific time\n\n";
+    cout << "reboots:\n";
+    cout << "   [4] same day reboot - countdown\n";
+    cout << "   [5] same day reboot - specific time\n";
+    cout << "   [6] other day reboot - specific time\n";
     cin >> input;
 
     switch (input) {
