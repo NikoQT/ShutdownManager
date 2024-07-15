@@ -18,7 +18,6 @@ string inputSpecificTime();
 
 int main()
 { 
-    buildXML("-s");
     int input;
     cout << "main mode:\n";
     cout << "[1] create new task\n";
@@ -40,15 +39,19 @@ void createTask() {
     cout << "task mode:\n";
     cout << "[1] new shutdown timer\n";
     cout << "[2] new shutdown task at specific time\n";
-    cout << "[3] new reboot timer\n";
-    cout << "[4] new reboot task at specific time\n";
+    cout << "[3] (WOP) new shutdown timer far future\n";
+    cout << "[4] new reboot timer\n";
+    cout << "[5] new reboot task at specific time\n";
+    cout << "[6] (WOP) new reboot timer far future\n";
     cin >> input;
 
     switch (input) {
         case 1: buildTask(inputRelTime(), inputUnit(), " -s -d p:0:0"); break;
         case 2: buildTask(inputSpecificTime() , 1, " -s -d p:0:0"); break;
-        case 3: buildTask(inputRelTime(), inputUnit(), " -r -d p:0:0"); break;
-        case 4: buildTask(inputSpecificTime(), 1, " -r -d p:0:0"); break;
+        case 3: buildXML("-s"); break;
+        case 4: buildTask(inputRelTime(), inputUnit(), " -r -d p:0:0"); break;
+        case 5: buildTask(inputSpecificTime(), 1, " -r -d p:0:0"); break;
+        case 6: buildXML("-r"); break;
         default: buildTask(inputRelTime(), inputUnit(), " -s -d p:0:0");
     }
 
