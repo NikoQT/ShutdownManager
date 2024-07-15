@@ -203,7 +203,7 @@ void buildXML(string type) {
 
 void importXML() {
 
-    string s = "schtasks /Create /TN \"Shutdown Manager\" /XML " + ("\"" + getAppDataFolder() + "\\ShutdownManager.xml\"");
+    string s = "schtasks /Create /TN \"Shutdown Manager\" /XML " + ("\"" + getAppDataFolder() + "\\ShutdownManager.xml\"") + " /F";
     int output = system(s.c_str());
     system("cls");
    
@@ -224,7 +224,9 @@ void deleteXML() {
 void warningXML() {
     cout << YELLOW << "Warning:\n" << RESET;
     cout << "In order to use this function you need to run this program with admin privileges\n";
-    cout << "(which may already be the case). This message will always be displayed\n\n";
+    cout << "(which may already be the case). This message will always be displayed\n\n\n";
+    cout << YELLOW << "Warning (2):\n" << RESET;
+    cout << "The old \"other day\" task will be overwritten\n\n";
     system("pause");
     system("cls");
 }
