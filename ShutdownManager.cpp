@@ -39,8 +39,8 @@ void deleteTask() {
     int input;
     system("cls");
     cout << "What do you want to cancel?\n";
-    cout << "[1] same day shutdown\n";
-    cout << "[2] other day shutdown\n";
+    cout << "[1] same day task\n";
+    cout << "[2] other (future) day task\n";
     cin >> input;
 
     switch (input) {
@@ -71,8 +71,7 @@ void createTask() {
         case 6: buildXML("-r"); break;
         default: buildTask(inputRelTime(), inputUnit(), " -s -d p:0:0");
     }
-    system("cls");
-    cout << GREEN << "created task successfully\n" << RESET;
+
     system("pause");
     
 }
@@ -110,6 +109,8 @@ void buildTask(string duration, int unitm, string mode) {
     duration = " -t " + to_string(stoi(duration) * unitm);
     string command = "shutdown" + mode + duration;
     system(command.c_str());
+    system("cls");
+    cout << GREEN << "created task successfully\n" << RESET;
 }
 
 void cancelSameDayTask() {

@@ -204,9 +204,14 @@ void buildXML(string type) {
 void importXML() {
 
     string s = "schtasks /Create /TN \"Shutdown Manager\" /XML " + ("\"" + getAppDataFolder() + "\\ShutdownManager.xml\"");
-    system(s.c_str());
+    int output = system(s.c_str());
+    system("cls");
+   
+    switch (output) {
+    case 1:  cout << RED << "Error: " << RESET << "time typo or programm started without admin privileges\n"; break;
+    default: cout << GREEN << "created task successfully\n" << RESET;
+    }
 
-    //TODO: checking errors
 }
 
 void deleteXML() {
@@ -230,6 +235,6 @@ void deleteOtherDayTask() {
 
     switch(output) {
         case 1:  cout << RED << "Error: " << RESET << "no task found or programm started without admin privileges\n"; break;
-        default: cout << GREEN << "canceled task successfully\n" << RESET; break;
+        default: cout << GREEN << "canceled task successfully\n" << RESET;
     }
 }
