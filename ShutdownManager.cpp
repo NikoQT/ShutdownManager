@@ -118,8 +118,8 @@ void cancelSameDayTask() {
     system("cls");
     switch (output) {
     case 0: cout << GREEN << "canceled task successfully\n" << RESET; break;
-    case 1116: cout << RED << "no task found\n" << RESET; break;
-    default: cout << RED << "unkown error\n" << RESET;
+    case 1116: cout << RED << "Error: " << RESET << "no task found\n"; break;
+    default: cout << RED << "Error: " << RESET << "unkown error\n";
     }
     system("pause");
 }

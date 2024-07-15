@@ -7,19 +7,13 @@
  The newest version of the source code usually won't match the newest release version. the source code is considered as "nightly/betaish release"
 
 Planned Features:
-- create same day shutdown task (timer): ✅
-- create same day shutdown task (at specific time): ✅
-- creating (far) future shutdown: (☣ beta)
-- create same day reboot task (timer): ✅
-- create same day reboot task (at specific time): ✅
-- creating (far) future reboot: (☣ beta)
-- delete same day shutdown task: ✅
-- delete (far) future shutdown: (☣ beta)
-- delete same day reboot task: ✅
-- delete (far) future reboot: (☣ beta)
+- create same day shutdown/reboot task (timer): ✅
+- create same day shutdown/reboot task (at specific time): ✅
+- create (far) future shutdown/reboot: (☣ beta)
+- delete same day shutdown/reboot task: ✅
+- delete (far) future shutdown/reboot: (☣ beta)
 - change mode (change between different features): ✅
 - reading remaining time until shutdown/reboot:
-- delete (far) future shutdown:
 - managing multiple (far) future shutdowns:
 - gui:
 

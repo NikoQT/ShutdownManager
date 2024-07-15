@@ -219,7 +219,7 @@ void deleteXML() {
 void warningXML() {
     cout << YELLOW << "Warning:\n" << RESET;
     cout << "In order to use this function you need to run this program with admin privileges\n";
-    cout << "(which maybe is already the case. This message will always be displayed\n\n";
+    cout << "(which may already be the case). This message will always be displayed\n\n";
     system("pause");
     system("cls");
 }
@@ -229,7 +229,7 @@ void deleteOtherDayTask() {
     system("cls");
 
     switch(output) {
-        case 1:  cout << RED << "Error: no task found or programm started without admin privileges\n" << RESET; break;
+        case 1:  cout << RED << "Error: " << RESET << "no task found or programm started without admin privileges\n"; break;
         default: cout << GREEN << "canceled task successfully\n" << RESET; break;
     }
 }
