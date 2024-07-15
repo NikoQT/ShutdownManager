@@ -13,6 +13,9 @@ string getCurrentUser();
 string to_stringd(int i);
 void inputXML();
 void buildXML(string type);
+void importXML();
+void deleteXML();
+void warningXML();
 
 int year, moth, day, hour, minute, second, hour_corrected, minute_corrected;
 
@@ -111,6 +114,8 @@ string to_stringd(int i) {
 
 void buildXML(string type) {
 
+    system("cls");
+    warningXML();
     time_t now = time(NULL);
     struct tm timeinfo;
     localtime_s(&timeinfo, &now);
@@ -189,4 +194,29 @@ void buildXML(string type) {
     file << L"</Task>" << endl;
 
     file.close();
+
+    importXML();
+    deleteXML();
+
+}
+
+void importXML() {
+
+    string s = "schtasks /Create /TN \"Shutdown Manager\" /XML " + ("\"" + getAppDataFolder() + "\\ShutdownManager.xml\"");
+    system(s.c_str());
+}
+
+void deleteXML() {
+
+    string path = (getAppDataFolder() + "\\ShutdownManager.xml");
+    remove(path.c_str());
+
+}
+
+void warningXML() {
+    cout << YELLOW << "Warning:\n" << RESET;
+    cout << "In order to use this function you need to run this program with admin privileges\n";
+    cout << "(which maybe is already the case. This message will always be displayed\n\n";
+    system("pause");
+    system("cls");
 }
