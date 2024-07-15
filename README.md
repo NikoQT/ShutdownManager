@@ -14,7 +14,9 @@ Planned Features:
 - create same day reboot task (at specific time): ✅
 - creating (far) future reboot: (☣ beta)
 - delete same day shutdown task: ✅
+- delete (far) future shutdown: (☣ beta)
 - delete same day reboot task: ✅
+- delete (far) future reboot: (☣ beta)
 - change mode (change between different features): ✅
 - reading remaining time until shutdown/reboot:
 - delete (far) future shutdown:

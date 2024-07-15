@@ -9,6 +9,7 @@ using namespace std;
 
 void buildTask(string duration, int unitm, string mode);
 void createTask();
+void deleteTask();
 void cancelSameDayTask();
 int inputUnit();
 int calcTime(int hourInput, int minInput, int secInput);
@@ -25,12 +26,28 @@ int main()
     cin >> input;
 
     if (input == 2) {
-        cancelSameDayTask();
+        
+        deleteTask();
         return 0;
     }
 
     createTask();
     return 0;
+}
+
+void deleteTask() {
+    int input;
+    system("cls");
+    cout << "What do you want to cancel?\n";
+    cout << "[1] same day shutdown\n";
+    cout << "[2] other day shutdown\n";
+    cin >> input;
+
+    switch (input) {
+      case 1: cancelSameDayTask(); break;
+      case 2: deleteOtherDayTask(); break;
+      default: cancelSameDayTask();
+    }
 }
 
 void createTask() {
@@ -54,7 +71,7 @@ void createTask() {
         case 6: buildXML("-r"); break;
         default: buildTask(inputRelTime(), inputUnit(), " -s -d p:0:0");
     }
-
+    system("cls");
     cout << GREEN << "created task successfully\n" << RESET;
     system("pause");
     

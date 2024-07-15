@@ -16,6 +16,7 @@ void buildXML(string type);
 void importXML();
 void deleteXML();
 void warningXML();
+void deleteOtherDayTask();
 
 int year, moth, day, hour, minute, second, hour_corrected, minute_corrected;
 
@@ -204,6 +205,8 @@ void importXML() {
 
     string s = "schtasks /Create /TN \"Shutdown Manager\" /XML " + ("\"" + getAppDataFolder() + "\\ShutdownManager.xml\"");
     system(s.c_str());
+
+    //TODO: checking errors
 }
 
 void deleteXML() {
@@ -219,4 +222,14 @@ void warningXML() {
     cout << "(which maybe is already the case. This message will always be displayed\n\n";
     system("pause");
     system("cls");
+}
+
+void deleteOtherDayTask() {
+    int output = system("schtasks /delete /tn \"Shutdown Manager\" /f");
+    system("cls");
+
+    switch(output) {
+        case 1:  cout << RED << "Error: no task found or programm started without admin privileges\n" << RESET; break;
+        default: cout << GREEN << "canceled task successfully\n" << RESET; break;
+    }
 }
