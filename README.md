@@ -14,8 +14,11 @@ Planned Features:
 - delete same day shutdown task: ✅
 - delete same day reboot task: ✅
 - change mode (change between different features): ✅
-- reading remaining time until shutdown/reboot:
+- reading remaining time until shutdown/reboot: (☣ beta)
 - creating (far) future shutdown:
 - delete (far) future shutdown:
 - managing multiple (far) future shutdowns:
 - gui:
+
+Beta info:
+"creating (far) future shutdown" is currently only available in beta and VERY experimental.  

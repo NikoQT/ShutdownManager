@@ -3,7 +3,7 @@
 #include <string>
 #include <time.h>
 #include "coutColors.h"
-#include "XML_TaskBuilder.h"
+#include "XML_TaskController.h"
 
 using namespace std;
 
